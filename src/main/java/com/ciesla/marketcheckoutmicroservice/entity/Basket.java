@@ -1,17 +1,23 @@
 package com.ciesla.marketcheckoutmicroservice.entity;
 
-import com.ciesla.marketcheckoutmicroservice.repository.ProductRepository;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
 @Setter
 public class Basket {
 
-    @Autowired
-    private ProductRepository products;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @OneToMany
+    private List<Product> productList;
+
+    public Basket() {
+    }
 }

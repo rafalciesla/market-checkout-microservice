@@ -21,4 +21,7 @@ public class Customer {
 
     @OneToOne
     private Basket basket;
+
+    public Customer() {
+    }
 }
