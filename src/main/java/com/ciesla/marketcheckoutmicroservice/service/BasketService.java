@@ -1,0 +1,74 @@
+package com.ciesla.marketcheckoutmicroservice.service;
+
+import com.ciesla.marketcheckoutmicroservice.ProductNotFoundException;
+import com.ciesla.marketcheckoutmicroservice.NotEnoughProductsException;
+import com.ciesla.marketcheckoutmicroservice.ProductType;
+import com.ciesla.marketcheckoutmicroservice.entity.Basket;
+import com.ciesla.marketcheckoutmicroservice.entity.Product;
+import com.ciesla.marketcheckoutmicroservice.repository.BasketRepository;
+import com.ciesla.marketcheckoutmicroservice.repository.ProductRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
+import java.util.Set;
+
+
+@Service
+public class BasketService {
+
+    @Autowired
+    private BasketRepository basketRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private DiscountService discountService;
+
+    @Transactional
+    public Basket getBasketById(Integer id) {
+        return basketRepository.findBasketById(id);
+    }
+
+    @Transactional
+    public void addProductToBasket(String productName, Integer itemsToBasket, Integer basketId) throws ProductNotFoundException, NotEnoughProductsException {
+        Set<Product> foundProducts = productRepository.findProductsByNameAndBasket(productName, null);
+
+        if(!foundProducts.isEmpty() && (foundProducts.size() >= itemsToBasket)) {
+            Basket basket = basketRepository.findBasketById(basketId);
+            for(Product product : foundProducts) {
+                basket.getProductList().add(product);
+                itemsToBasket--;
+                if(itemsToBasket == 0){
+                    break;
+                }
+            }
+        } else if (!foundProducts.isEmpty() && foundProducts.size() < itemsToBasket) {
+            for(Product product : foundProducts) {
+                System.out.println(product);
+            }
+            throw new NotEnoughProductsException("Not enough products available");
+        } else {
+            throw new ProductNotFoundException("Product doesn't exist");
+        }
+    }
+
+    @Transactional
+    public Double getTotalPrice(Set<Product> products) {
+        return discountService.getTotalPriceWithDiscounts(products);
+    }
+
+    private void saveItemToBasket(String name, Double price, ProductType type, Integer quantity, Integer basketId) {
+        productRepository.save(new Product(name, price, type, basketRepository.findBasketById(basketId)));
+    }
+
+    public void clear(Integer basketId) {
+        Basket basket = basketRepository.findBasketById(basketId);
+        Set<Product> products = basket.getProductList();
+        for(Product product : products) {
+            product.setBasket(null);
+        }
+        basketRepository.save(basket);
+    }
+}
