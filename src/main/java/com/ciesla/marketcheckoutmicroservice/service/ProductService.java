@@ -12,8 +12,12 @@ import java.util.Set;
 @Service
 public class ProductService {
 
-    @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
     @Transactional
     public Product findProductByName(String name) {

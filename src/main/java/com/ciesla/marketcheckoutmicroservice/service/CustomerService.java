@@ -35,10 +35,9 @@ public class CustomerService {
     }
 
     @Transactional
-    public void addNewCustomer(String firstName, String lastName, String email, String password) {
+    public void addNewCustomer(Customer customer) {
         Basket basket = new Basket();
         basketRepository.save(basket);
-        Customer customer = new Customer(firstName, lastName, email, password);
         customer.setBasket(basket);
         customerRepository.save(customer);
     }

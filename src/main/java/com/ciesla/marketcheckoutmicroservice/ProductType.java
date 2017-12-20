@@ -1,9 +1,5 @@
 package com.ciesla.marketcheckoutmicroservice;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.LinkedList;
-import java.util.List;
-
 public enum ProductType {
     FRUIT, VEGETABLE, JUICE, SODA, DAIRY_PRODUCT, OTHER;
 

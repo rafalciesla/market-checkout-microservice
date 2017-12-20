@@ -32,7 +32,8 @@ public class BasketService {
     }
 
     @Transactional
-    public void addProductToBasket(String productName, Integer itemsToBasket, Integer basketId) throws ProductNotFoundException, NotEnoughProductsException {
+    public void addProductsToBasket(String productName, Integer itemsToBasket, Integer basketId) throws ProductNotFoundException, NotEnoughProductsException {
+
         Set<Product> foundProducts = productRepository.findProductsByNameAndBasket(productName, null);
 
         if(!foundProducts.isEmpty() && (foundProducts.size() >= itemsToBasket)) {
@@ -45,9 +46,6 @@ public class BasketService {
                 }
             }
         } else if (!foundProducts.isEmpty() && foundProducts.size() < itemsToBasket) {
-            for(Product product : foundProducts) {
-                System.out.println(product);
-            }
             throw new NotEnoughProductsException("Not enough products available");
         } else {
             throw new ProductNotFoundException("Product doesn't exist");
@@ -55,14 +53,12 @@ public class BasketService {
     }
 
     @Transactional
-    public Double getTotalPrice(Set<Product> products) {
+    public Double getTotalPrice(Integer id) {
+        Set<Product> products = basketRepository.findBasketById(id).getProductList();
         return discountService.getTotalPriceWithDiscounts(products);
     }
 
-    private void saveItemToBasket(String name, Double price, ProductType type, Integer quantity, Integer basketId) {
-        productRepository.save(new Product(name, price, type, basketRepository.findBasketById(basketId)));
-    }
-
+    @Transactional
     public void clear(Integer basketId) {
         Basket basket = basketRepository.findBasketById(basketId);
         Set<Product> products = basket.getProductList();

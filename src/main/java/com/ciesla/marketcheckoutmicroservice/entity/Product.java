@@ -37,12 +37,4 @@ public class Product {
         this.productType = productType;
         this.basket = basket;
     }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "name='" + name + '\'' +
-                ", productType=" + productType +
-                '}';
-    }
 }

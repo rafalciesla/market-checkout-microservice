@@ -1,13 +1,9 @@
 package com.ciesla.marketcheckoutmicroservice.entity;
 
-import com.ciesla.marketcheckoutmicroservice.repository.BasketRepository;
-import com.ciesla.marketcheckoutmicroservice.service.BasketService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
-import java.util.Random;
 
 @Entity
 @Getter
