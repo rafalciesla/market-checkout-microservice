@@ -1,5 +1,6 @@
 package com.ciesla.marketcheckoutmicroservice.service;
 
+import com.ciesla.marketcheckoutmicroservice.ProductType;
 import com.ciesla.marketcheckoutmicroservice.entity.Product;
 import com.ciesla.marketcheckoutmicroservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +31,12 @@ public class ProductService {
 
     @Transactional
     public void addNewProductToDatabase(Product product, Integer quantity) {
+        String name = product.getName();
+        Double price = product.getPrice();
+        ProductType productType = product.getProductType();
+
         while(quantity > 0) {
-            productRepository.save(product);
+            productRepository.save(new Product(name, price, productType));
             quantity--;
         }
     }
