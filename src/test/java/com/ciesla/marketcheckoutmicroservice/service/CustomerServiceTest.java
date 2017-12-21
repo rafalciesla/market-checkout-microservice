@@ -1,6 +1,5 @@
 package com.ciesla.marketcheckoutmicroservice.service;
 
-import com.ciesla.marketcheckoutmicroservice.entity.Basket;
 import com.ciesla.marketcheckoutmicroservice.entity.Customer;
 import com.ciesla.marketcheckoutmicroservice.repository.BasketRepository;
 import com.ciesla.marketcheckoutmicroservice.repository.CustomerRepository;
