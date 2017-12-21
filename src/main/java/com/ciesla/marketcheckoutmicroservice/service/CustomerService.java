@@ -41,9 +41,4 @@ public class CustomerService {
         customer.setBasket(basket);
         customerRepository.save(customer);
     }
-
-    @Transactional
-    public void saveCustomer(Customer customer) {
-        customerRepository.save(customer);
-    }
 }

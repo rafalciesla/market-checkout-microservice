@@ -20,9 +20,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class CustomerControllerTest {
@@ -45,7 +43,7 @@ public class CustomerControllerTest {
         when(testedObject.findAllCustomers()).thenReturn(getCustomerList());
 
         List<Customer> result = testedObject.findAllCustomers();
-        verify(mockedCustomerService).findAllCustomers();
+        verify(mockedCustomerService, times(1)).findAllCustomers();
         assertThat(result).isNotEmpty();
         assertThat(result.size()).isEqualTo(4);
     }

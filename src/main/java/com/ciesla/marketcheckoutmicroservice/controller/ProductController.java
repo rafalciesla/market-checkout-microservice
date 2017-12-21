@@ -4,6 +4,8 @@ import com.ciesla.marketcheckoutmicroservice.ProductType;
 import com.ciesla.marketcheckoutmicroservice.entity.Product;
 import com.ciesla.marketcheckoutmicroservice.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,11 +30,13 @@ public class ProductController {
     }
 
     @GetMapping("add/" + "{name}" + "/" + "{price}" + "/" + "{type}" + "/" + "{quantity}")
-    public void addNewProductToDatabase(@PathVariable("name") String name,
-                                        @PathVariable("price") Double price,
-                                        @PathVariable("type") Integer type,
-                                        @PathVariable("quantity") Integer quantity) {
+    public ResponseEntity<String> addNewProductToDatabase(@PathVariable("name") String name,
+                                                  @PathVariable("price") Double price,
+                                                  @PathVariable("type") Integer type,
+                                                  @PathVariable("quantity") Integer quantity) {
 
-        productService.addNewProductToDatabase(name, price, ProductType.fromInteger(type), quantity);
+        Product product = new Product(name, price, ProductType.fromInteger(type));
+        productService.addNewProductToDatabase(product, quantity);
+        return new ResponseEntity<>("Product added", HttpStatus.CREATED);
     }
 }

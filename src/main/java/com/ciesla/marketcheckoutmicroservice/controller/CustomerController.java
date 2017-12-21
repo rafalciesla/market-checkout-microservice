@@ -2,7 +2,6 @@ package com.ciesla.marketcheckoutmicroservice.controller;
 
 import com.ciesla.marketcheckoutmicroservice.NotEnoughProductsException;
 import com.ciesla.marketcheckoutmicroservice.ProductNotFoundException;
-import com.ciesla.marketcheckoutmicroservice.entity.Basket;
 import com.ciesla.marketcheckoutmicroservice.entity.Customer;
 import com.ciesla.marketcheckoutmicroservice.entity.Product;
 import com.ciesla.marketcheckoutmicroservice.service.CustomerService;

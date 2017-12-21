@@ -2,7 +2,6 @@ package com.ciesla.marketcheckoutmicroservice.service;
 
 import com.ciesla.marketcheckoutmicroservice.ProductNotFoundException;
 import com.ciesla.marketcheckoutmicroservice.NotEnoughProductsException;
-import com.ciesla.marketcheckoutmicroservice.ProductType;
 import com.ciesla.marketcheckoutmicroservice.entity.Basket;
 import com.ciesla.marketcheckoutmicroservice.entity.Product;
 import com.ciesla.marketcheckoutmicroservice.repository.BasketRepository;
@@ -17,14 +16,18 @@ import java.util.Set;
 @Service
 public class BasketService {
 
-    @Autowired
     private BasketRepository basketRepository;
 
-    @Autowired
     private ProductRepository productRepository;
 
-    @Autowired
     private DiscountService discountService;
+
+    @Autowired
+    public BasketService(BasketRepository basketRepository, ProductRepository productRepository, DiscountService discountService) {
+        this.basketRepository = basketRepository;
+        this.productRepository = productRepository;
+        this.discountService = discountService;
+    }
 
     @Transactional
     public Basket getBasketById(Integer id) {
