@@ -86,7 +86,6 @@ public class CustomerControllerTest {
         assertThat(foundProductsFromBasket.size()).isEqualTo(3);
     }
 
-    //todo improve this
     @Test
     public void shouldAddProductToBasket() throws Exception {
         ResponseEntity<String> desiredResponse = new ResponseEntity<>("Product has been added to basket", HttpStatus.OK);
